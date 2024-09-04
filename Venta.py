@@ -6,8 +6,8 @@ class Venta(BaseModel):
     pago = ForeignKeyField(Pago, backref='venta')
     fecha = CharField()
     cliente = ForeignKeyField(Cliente, backref='historial')
-    envio = DecimalField()
-    total = DecimalField()
+    envio = DecimalField(10,2)
+    total = DecimalField(10,2)
 
     def getiden(self):
         return self.iden
