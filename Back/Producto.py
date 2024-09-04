@@ -2,8 +2,8 @@ from __init__ import *
 
 class Producto(BaseModel):
     iden = PrimaryKeyField()
-    descripcion = CharField()
-    precio = DecimalField()
+    descripcion = CharField(270)
+    precio = DecimalField(10,2)
     stock = IntegerField()
     marca = CharField()
     modelo = CharField()

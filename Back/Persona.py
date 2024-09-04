@@ -4,8 +4,8 @@ class Persona(BaseModel):
     iden = PrimaryKeyField()
     nombre = CharField()
     apellido = CharField()
-    telefono = CharField()
-    documento = CharField()
+    telefono = CharField(11)
+    documento = CharField(7)
     mail = CharField()
 
     def getiden(self):
