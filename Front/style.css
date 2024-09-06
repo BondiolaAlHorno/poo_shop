@@ -1,0 +1,8 @@
+index{
+    background-image: "imagenes/fondo";
+}
+
+cajaDeLoggin{
+    margin-inline-start: auto;
+    background-color: rgb(213, 87, 41);
+}
