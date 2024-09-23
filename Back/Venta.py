@@ -51,7 +51,7 @@ class Venta(BaseModel):
         return self.total
 
     def calcular_envio(self):
-        # Aca tiene que ir la lógica para calcular el costo de envío??
+        # Aca tiene que ir la lógica para calcular el costo de envío?
         self.envio = 10.0
         self.save()
         return self.envio

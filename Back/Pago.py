@@ -45,6 +45,5 @@ class Pago(BaseModel):
         
     def validar_pago(self):
         # aca tendria que ir la lógica para validar el pago??
-        # ejemplo, verificar fondos suficientes, tarjeta válida
+        # ejemplo, verificar fondos suficientes, tarjeta válida, etc.
         return True
-        
