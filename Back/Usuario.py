@@ -11,23 +11,19 @@ class Usuario(BaseModel):
         return self.iden
     def setiden(self, new):
         self.iden = new
-
     def gettipo(self):
         return self.tipo
     def settipo(self, new):
         self.tipo = new
-
     def getusuario(self):
-        return self.usuario
+        return self.usuario    
     def setusuario(self, new):
         self.usuario = new
-
     def getcontrasenia(self):
-        return self.contrasenia
+        return self.contrasenia    
     def setcontrasenia(self, new):
         self.contrasenia = new
-
-    def getpersona(self):
-        return self.persona
-    def setpersona(self,new):
-        self.persona = new
+    def veriUsuario(self, usua):
+        return (self.usuario == usua )       
+    def veriContra(self, contra):
+        return self.contrasenia == contra

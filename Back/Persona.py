@@ -37,3 +37,17 @@ class Persona(BaseModel):
         return self.mail
     def setmail(self, new):
         self.mail = new
+        
+    def gettipo(self):
+        return self.usuarios.tipo
+    
+    def settipo(self,nuevotipo):
+        self.usuarios.tipo = nuevotipo
+    
+    def getusuariousuarios(self):
+        return self.usuarios.usuario
+      
+    def getcontraseniausuarios(self):
+        return self.usuarios.contrasenia
+    
+    
