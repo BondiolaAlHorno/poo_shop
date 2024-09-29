@@ -23,7 +23,15 @@ class Usuario(BaseModel):
         return self.contrasenia    
     def setcontrasenia(self, new):
         self.contrasenia = new
-    def veriUsuario(self, usua):
-        return (self.usuario == usua )       
-    def veriContra(self, contra):
-        return self.contrasenia == contra
+    def veriUsuario(usua): #aca no se puede usar un if, porq da error, ¿pero en otras libriras se puede usar un if?? con un else
+        try:
+            pers= Usuario.get(Usuario.usuario==usua)
+            return True
+        except Usuario.DoesNotExist:
+            return False
+    def veriContra(contra):
+        try:
+            key= Usuario.get(Usuario.contrasenia==contra)
+            return True
+        except Usuario.DoesNotExist:
+            return False
