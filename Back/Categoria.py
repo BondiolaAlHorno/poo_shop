@@ -14,29 +14,22 @@ class Categoria(BaseModel):
     def setnombre(self, new):
         self.nombre = new
         
-    @classmethod
-    def agregar_categoria(cls, nombre):
-        return cls.create(nombre=nombre)
+    def agregar_categoria(self):
+        self.save()
+        return self
 
-    @classmethod
-    def eliminar_categoria(cls, iden):
-        categoria = cls.get_or_none(cls.iden == iden)
-        if categoria:
-            categoria.delete_instance()
+    def eliminar_categoria(self):
+        if self.iden:
+            return self.delete_instance()
+        return False
+
+    def modificar_categoria(self, nuevo_nombre):
+        if self.iden:
+            self.nombre = nuevo_nombre
+            self.save()
             return True
         return False
 
-    @classmethod
-    def modificar_categoria(cls, iden, nuevo_nombre):
-        categoria = cls.get_or_none(cls.iden == iden)
-        if categoria:
-            categoria.nombre = nuevo_nombre
-            categoria.save()
-            return True
-        return False
-
-    @classmethod
-    def obtener_todas_las_categorias(cls):
-        return list(cls.select())
-        
-    # No se si esto esta bien, huguito confirmalo
+    @staticmethod
+    def obtener_todas_las_categorias():
+        return list(Categoria.select())

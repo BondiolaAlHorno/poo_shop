@@ -20,9 +20,10 @@ class Carrito(BaseModel):
     def setcliente(self,new):
         self.cliente = new
     
-    @classmethod
-    def crear_carrito(cls, cliente):
-        return cls.create(total=0, cliente=cliente)
+    def crear_carrito(self):
+        self.total = 0
+        self.save()
+        return self
 
     def anadir_producto_al_carrito(self, producto, cantidad):
         CarritoProducto.create(carrito=self, producto=producto, cantidad=cantidad)
@@ -43,7 +44,7 @@ class Carrito(BaseModel):
         return False
 
     def confirmar_carrito(self):
-        # Aca tendría que ir la lógica para confirmar el carrito
+        # Aca tendria que ir la lógica para confirmar el carrito
         pass
 
     def mostrar_carrito(self):
@@ -54,6 +55,6 @@ class Carrito(BaseModel):
         self.total = total
         self.save()
 
-    @classmethod
-    def obtener_carrito_por_cliente(cls, cliente):
-        return cls.get_or_none(cls.cliente == cliente)
+    @staticmethod
+    def obtener_carrito_por_cliente(cliente):
+        return Carrito.get_or_none(Carrito.cliente == cliente)
