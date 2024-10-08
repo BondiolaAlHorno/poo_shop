@@ -39,9 +39,11 @@ class Producto(BaseModel):
         self.modelo = new
 
     def agregar_categoria(self, categoria):
+        from ProductoCategoria import ProductoCategoria
         ProductoCategoria.create(producto=self, categoria=categoria)
 
     def eliminar_categoria(self, categoria):
+        from ProductoCategoria import ProductoCategoria
         try:
             relacion = ProductoCategoria.get(ProductoCategoria.producto == self, ProductoCategoria.categoria == categoria)
             relacion.delete_instance()
@@ -49,14 +51,17 @@ class Producto(BaseModel):
             raise ValueError("La categoría no está asociada a este producto.")
         
     def get_id_categorias(self):
+        from ProductoCategoria import ProductoCategoria
         categorias = (ProductoCategoria.select(ProductoCategoria.categoria).where(ProductoCategoria.producto == self))
         return [cat.categoria.id for cat in categorias]
     
     def get_nombre_categorias(self):
+        from ProductoCategoria import ProductoCategoria
         categorias = (ProductoCategoria.select(ProductoCategoria.categoria).where(ProductoCategoria.producto == self))
         return [cat.categoria.nombre for cat in categorias]
     
     def lista_productos_por_categoria(self,cat):
+        from ProductoCategoria import ProductoCategoria
         productos = (ProductoCategoria.select(ProductoCategoria.producto).where(ProductoCategoria.categoria == cat))
         return [producto.producto for producto in productos]
     
