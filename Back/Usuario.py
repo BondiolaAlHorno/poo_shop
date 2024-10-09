@@ -30,6 +30,8 @@ class Usuario(BaseModel):
         except Usuario.DoesNotExist:
             return False
     def veriContra(contra):
+        
+
         try:
             key= Usuario.get(Usuario.contrasenia==contra)
             return True

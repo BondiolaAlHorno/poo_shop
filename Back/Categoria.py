@@ -14,9 +14,8 @@ class Categoria(BaseModel):
     def setnombre(self, new):
         self.nombre = new
         
-    def agregar_categoria(self):
-        self.save()
-        return self
+    def agregar_categoria(self,new):
+        return Categoria.create(nombre = new)
 
     def eliminar_categoria(self):
         if self.iden:
@@ -24,11 +23,7 @@ class Categoria(BaseModel):
         return False
 
     def modificar_categoria(self, nuevo_nombre):
-        if self.iden:
-            self.nombre = nuevo_nombre
-            self.save()
-            return True
-        return False
+        self.setnombre(nuevo_nombre)
 
     @staticmethod
     def obtener_todas_las_categorias():

@@ -41,9 +41,18 @@ class Persona(BaseModel):
     def gettipo(self):
         return self.usuarios.tipo
     
+    def getusuario(self):
+        return self.usuarios
+    
+    def setusuaios(self,new):
+        self.usuarios=new
+    
     def settipo(self,nuevotipo):
         self.usuarios.tipo = nuevotipo
     
+    def setusuarios(self,new):
+        self.usuarios = new
+
     def getusuariousuarios(self):
         return self.usuarios.usuario
       

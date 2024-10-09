@@ -18,16 +18,16 @@ def ceratetables():
 
 ceratetables()
 
-# Crear un producto
-producto = Producto.create(descripcion="placa de video de gama baja", precio=100.00, stock=10, marca="nvidia", modelo="gtx 1660 ti")
+# # Crear un producto
+# producto = Producto.create(descripcion="placa de video de gama baja", precio=100.00, stock=10, marca="nvidia", modelo="gtx 1660 ti")
 
-# Crear categorías
-categoria1 = Categoria.create(nombre="videocard")
-categoria2 = Categoria.create(nombre="low-end")
+# # Crear categorías
+# categoria1 = Categoria.create(nombre="videocard")
+# categoria2 = Categoria.create(nombre="low-end")
 
-# Agregar categorías al producto
-producto.agregar_categoria(categoria1)
-producto.agregar_categoria(categoria2)
+# # Agregar categorías al producto
+# producto.agregar_categoria(categoria1)
+# producto.agregar_categoria(categoria2)
 
 # # Obtener y mostrar las categorías del producto
 # nombres_categorias = producto.get_nombre_categorias()
