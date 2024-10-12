@@ -1,10 +1,10 @@
 from __init__ import *
 
-class Carrito(BaseModel):
+class Carrito(BaseModel):  #definimos la clase y pasamos los atributos que va a tener esta clase,  ide, total, cliente
     iden = PrimaryKeyField()
     total = DecimalField()
-    cliente = ForeignKeyField(Cliente, backref='carrito')
-
+    cliente = ForeignKeyField(Cliente, backref='carrito') 
+#le definimos los get y set a cada atributo
     def getiden(self):
         return self.iden
     def setiden(self,new):
@@ -24,6 +24,7 @@ class Carrito(BaseModel):
         self.total = 0
         self.save()
         return self
+#definimos los metodos(comportamiento que van a tener los atributos) 
 
     def anadir_producto_al_carrito(self, producto, cantidad):
         CarritoProducto.create(carrito=self, producto=producto, cantidad=cantidad)
@@ -55,6 +56,6 @@ class Carrito(BaseModel):
         self.total = total
         self.save()
 
-    @staticmethod
+    @staticmethod # es un decorador que te permite utilizar metodos sin tener una instancia de esa clase creada
     def obtener_carrito_por_cliente(cliente):
         return Carrito.get_or_none(Carrito.cliente == cliente)
