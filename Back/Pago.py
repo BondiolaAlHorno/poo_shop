@@ -5,7 +5,7 @@ class Pago(BaseModel):
     total = DecimalField()
     metododepago = CharField()
     numerodetarjeta = CharField()
-    estado = CharField()
+    estado = CharField("incompleto")
     venta = ForeignKeyField(Venta, backref='pago')
 
     def getiden(self):
@@ -40,16 +40,5 @@ class Pago(BaseModel):
         
     def realizar_pago(self):
         # aca tiene que ir la logica para procesar el pago?
-        if self.validar_pago():
-            self.estado = "Completado"
-            self.save()
-            return True
-        else:
-            self.estado = "Fallido"
-            self.save()
-            return False
-        
-    def validar_pago(self):
-        # aca tendria que ir la lógica para validar el pago??
-        # ejemplo, verificar fondos suficientes, tarjeta válida, etc.
-        return True
+        self.estado = "Completado"
+        self.save()

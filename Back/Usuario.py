@@ -52,17 +52,16 @@ class Usuario(BaseModel):
     def veriUsuario(usua): #aca no se puede usar un if, porq da error, ¿pero en otras libriras se puede usar un if?? con un else
         try:
             pers= Usuario.get(Usuario.usuario==usua)
-            return True
+            return True,pers
         except Usuario.DoesNotExist:
             return False
     
     @staticmethod
-    def veriContra(contra):
-        try:
-            key= Usuario.get(Usuario.contrasenia==contra)
+    def veriContra(contra,usua:Usuario):
+        if usua.contrasenia == contra:
             return True
-        except Usuario.DoesNotExist:
-            return False
+        else: return False
+        
     
     @staticmethod
     def verificar_usuario_contraseña(usua,contra):
