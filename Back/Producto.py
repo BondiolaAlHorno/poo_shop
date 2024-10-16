@@ -2,8 +2,8 @@ from __init__ import *
 
 class Producto(BaseModel):
     iden = PrimaryKeyField()
-    descripcion = CharField(270)
-    precio = DecimalField(10,2)
+    descripcion = CharField()
+    precio = DecimalField()
     stock = IntegerField()
     marca = CharField()
     modelo = CharField()
@@ -68,7 +68,8 @@ class Producto(BaseModel):
     def obtener_datos_producto(self):
         return [self.iden, self.descripcion, self.precio, self.stock, self.marca, self.modelo]
     
-    def añadir_producto(self,descripcion = None, precio = None, stock = None, marca = None, modelo = None):
+    @staticmethod
+    def añadir_producto(descripcion = None, precio = None, stock = None, marca = None, modelo = None):
         Producto.create(descripcion=descripcion, precio=precio, stock=stock, marca=marca, modelo=modelo)
 
     def eliminar_producto(self):

@@ -6,6 +6,7 @@ class Pago(BaseModel):
     metododepago = CharField()
     numerodetarjeta = CharField()
     estado = CharField()
+    venta = ForeignKeyField(Venta, backref='pago')
 
     def getiden(self):
         return self.iden
@@ -31,6 +32,11 @@ class Pago(BaseModel):
         return self.estado
     def setestado(self, new):
         self.estado = new
+
+    def getventa(self):
+        return self.venta
+    def setventa(self, new):
+        self.venta = new
         
     def realizar_pago(self):
         # aca tiene que ir la logica para procesar el pago?

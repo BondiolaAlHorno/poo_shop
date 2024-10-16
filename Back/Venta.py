@@ -3,11 +3,10 @@ from __init__ import *
 class Venta(BaseModel):
     iden = PrimaryKeyField()
     estado = CharField()
-    pago = ForeignKeyField(Pago, backref='venta')
     fecha = CharField()
+    envio = DecimalField()
+    total = DecimalField()
     cliente = ForeignKeyField(Cliente, backref='historial')
-    envio = DecimalField(10,2)
-    total = DecimalField(10,2)
 
     def getiden(self):
         return self.iden
@@ -29,11 +28,6 @@ class Venta(BaseModel):
     def setfecha(self, new):
         self.fecha = new
 
-    def getcliente(self):
-        return self.cliente
-    def setcliente(self, new):
-        self.cliente = new
-
     def getenvio(self):
         return self.envio
     def setenvio(self, new):
@@ -43,10 +37,39 @@ class Venta(BaseModel):
         return self.total
     def settotal(self, new):
         self.total = new
+
+    def getcliente(self):
+        return self.cliente
+    def setcliente(self, new):
+        self.cliente = new
+
+    def get_metodo_pago_pago(self):
+        return self.pago.getmetododepago()
+    
+    def get_numero_tarjeta_pago(self):
+        return self.pago.getnumerodetarjeta()
+    
+    def get_estado_pago(self):
+        return self.pago.getestado()
+    
+    def get_precio_producto(self,producto):
+        return producto.precio
         
+    def get_nombre_cliente(self):
+        return self.cliente.getnombre()
+
+    def get_apellido_cliente(self):
+        return self.cliente.getapellido()
+
+    def get_documento_cliente(self):
+        return self.cliente.getdocumento()
+
+    def mostrar_productos(self):
+        return self.productos
+
     def calcular_total(self):
-        subtotal = sum(item.producto.precio * item.cantidad for item in self.items)
-        self.total = subtotal + self.envio
+        total = sum(item.producto.precio * item.cantidad for item in self.mostrar_productos())
+        self.total = total
         self.save()
         return self.total
 
@@ -57,12 +80,10 @@ class Venta(BaseModel):
         return self.envio
 
     def realizar_pedido(self):
-        if self.validar_stock():
-            self.estado = "Confirmado"
-            self.pago.realizar_pago()
-            self.save()
-            return True
-        return False
+        self.validar_stock()
+        self.estado = "Confirmado"
+        self.pago.realizar_pago()
+        self.save()
 
     def cancelar_pedido(self):
         if self.estado != "Enviado":
@@ -72,17 +93,9 @@ class Venta(BaseModel):
             return True
         return False
 
-    def get_nombre_cliente(self):
-        return self.cliente.getnombre()
-
-    def get_apellido_cliente(self):
-        return self.cliente.getapellido()
-
-    def get_documento_cliente(self):
-        return self.cliente.getdocumento()
-
     def validar_stock(self):
-        for item in self.items:
-            if item.producto.stock < item.cantidad:
-                return False
-        return True    
+        for item in self.mostrar_productos:
+            if item.producto.stock < item.cantidad & item.producto.stock > 0:
+                item.cantidad = item.producto.stock
+            elif item.producto.stock == 0:
+                item.delete_instance()

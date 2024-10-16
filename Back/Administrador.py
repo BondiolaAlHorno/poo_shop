@@ -5,8 +5,25 @@ class Administrador(Persona): #definimos la clase admnin
     pass #segui scroleando aca no hay nada
 
 #pasamos a definir los metodos
-    def altaAdmin(self, id,nom,ape,tel,dni,email,usuar): # le voy a pasar por parametros nuevos "atributos", correspondiente a cada atributo de la clae padre en este caso, ejemplo claro de como hereda lso atributos de persona el administrador
-        return Administrador.create(iden=id,nombre=nom,apellido=ape,telefono=tel, documento=dni,mail=email, usuarios=usuar)
+    @staticmethod
+    def alta_administrador(nombre, apellido, telefono, documento, mail, direccion, tipo_usuario, usuario, contrasenia):
+        from Constructor import db
+        with db.atomic():
+            administrador = Administrador.create(
+                nombre=nombre,
+                apellido=apellido,
+                telefono=telefono,
+                documento=documento,
+                mail=mail,
+                direccion=direccion
+            )
+            
+            Usuario.crearusuario(
+                tipo_usuario,
+                usuario,
+                contrasenia,
+                administrador
+                )
                 
     def eliminarAdmin(self): # elimina lo que esta entre parentesis, en este caso self
         self.delete_instance()

@@ -20,20 +20,30 @@ class Carrito(BaseModel):  #definimos la clase y pasamos los atributos que va a 
     def setcliente(self,new):
         self.cliente = new
     
-    def crear_carrito(self):
-        self.total = 0
-        self.save()
-        return self
-#definimos los metodos(comportamiento que van a tener los atributos) 
+    def get_id_producto(self,producto):
+        return producto.getiden()
+    
+    def get_descripcion_producto(self,producto):
+        return producto.getdescripcion()
+    
+    def get_precio_producto(self,producto):
+        return producto.getprecio()
+    
+    def get_stock_producto(self,producto):
+        return producto.getstock()
+    
+    def get_marca_producto(self,producto):
+        return producto.getmarca()
+    
+    def get_modelo_producto(self,producto):
+        return producto.getmodelo()
 
     def anadir_producto_al_carrito(self, producto, cantidad):
         CarritoProducto.create(carrito=self, producto=producto, cantidad=cantidad)
         self.calcular_total()
 
     def modificar_carrito(self, producto, cantidad):
-        carrito_producto = CarritoProducto.get_or_none(
-            (CarritoProducto.carrito == self) & (CarritoProducto.producto == producto)
-        )
+        carrito_producto = CarritoProducto.get_or_none((CarritoProducto.carrito == self) & (CarritoProducto.producto == producto))
         if carrito_producto:
             if cantidad > 0:
                 carrito_producto.cantidad = cantidad
@@ -49,13 +59,10 @@ class Carrito(BaseModel):  #definimos la clase y pasamos los atributos que va a 
         pass
 
     def mostrar_carrito(self):
-        return list(CarritoProducto.select().where(CarritoProducto.carrito == self))
+        return self.productos
 
     def calcular_total(self):
-        total = sum(cp.producto.precio * cp.cantidad for cp in self.mostrar_carrito())
+        total = sum(item.producto.precio * item.cantidad for item in self.mostrar_carrito())
         self.total = total
         self.save()
-
-    @staticmethod # es un decorador que te permite utilizar metodos sin tener una instancia de esa clase creada
-    def obtener_carrito_por_cliente(cliente):
-        return Carrito.get_or_none(Carrito.cliente == cliente)
+        return self.total

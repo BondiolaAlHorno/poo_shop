@@ -14,17 +14,16 @@ class Categoria(BaseModel):
     def setnombre(self, new):
         self.nombre = new
         
-    def agregar_categoria(self,new):
+    @staticmethod
+    def agregar_categoria(new):
         return Categoria.create(nombre = new)
 
     def eliminar_categoria(self):
-        if self.iden:
-            return self.delete_instance()
-        return False
+        self.delete_instance()
 
     def modificar_categoria(self, nuevo_nombre):
         self.setnombre(nuevo_nombre)
 
     @staticmethod
-    def obtener_todas_las_categorias():
+    def obtener_lista_categorias():
         return list(Categoria.select())
