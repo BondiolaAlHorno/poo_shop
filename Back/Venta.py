@@ -67,23 +67,26 @@ class Venta(BaseModel):
     def mostrar_productos(self):
         return self.productos
 
-    def calcular_total(self):
-        total = sum(item.producto.precio * item.cantidad for item in self.mostrar_productos())
-        self.total = total
-        self.save()
-        return self.total
-
     def calcular_envio(self):
         # Aca tiene que ir la lógica para calcular el costo de envío?
         self.envio = 10.0
         self.save()
         return self.envio
 
-    def realizar_pedido(self):
-        self.validar_stock()
-        self.estado = "Confirmado"
-        self.pago.realizar_pago()
-        self.save()
+    def realizar_pedido(self,metododepago,numerodetarjeta):
+        from Constructor import db
+        with db.atomic():
+            pago = Pago.create(
+                total=self.total+self.envio,
+                metododepago=metododepago,
+                numerodetarjeta=numerodetarjeta,
+                estado='completo'
+                )
+            self.pago = pago
+            self.validar_stock()
+            self.estado = "Confirmado"
+            self.pago.realizar_pago()
+            self.save()
 
     def cancelar_pedido(self):
         if self.estado != "Enviado":

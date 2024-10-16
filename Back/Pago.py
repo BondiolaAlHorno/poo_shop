@@ -5,7 +5,7 @@ class Pago(BaseModel):
     total = DecimalField()
     metododepago = CharField()
     numerodetarjeta = CharField()
-    estado = CharField("incompleto")
+    estado = CharField()
     venta = ForeignKeyField(Venta, backref='pago')
 
     def getiden(self):

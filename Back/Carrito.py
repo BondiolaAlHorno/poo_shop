@@ -54,9 +54,17 @@ class Carrito(BaseModel):  #definimos la clase y pasamos los atributos que va a 
             return True
         return False
 
-    def confirmar_carrito(self):
-        # Aca tendria que ir la lógica para confirmar el carrito
-        pass
+    def confirmar_carrito(self,estado,fecha,envio,metododepago):
+        from Constructor import db
+        with db.atomic():
+            venta = Venta.create(
+                estado = estado,
+                fecha = fecha,
+                envio = envio,
+                total = self.total,
+                cliente = self.cliente,
+                productos = [CarritoProducto.create(producto=item.producto,cantidad=item.cantidad) for item in self.productos]
+            )
 
     def mostrar_carrito(self):
         return self.productos

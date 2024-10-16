@@ -1,7 +1,7 @@
 from __init__ import *
 #es una clase intermedia para hacer la relacion entre carrito y producto
  
-class CarritoProducto(BaseModel): #
+class CarritoProducto(BaseModel):
     carrito = ForeignKeyField(Carrito, backref='productos')
     producto = ForeignKeyField(Producto, backref='carritos')
     cantidad = IntegerField()
