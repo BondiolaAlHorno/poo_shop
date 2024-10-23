@@ -1,14 +1,12 @@
 from __init__ import *
 
-class Carrito(BaseModel):  #definimos la clase y pasamos los atributos que va a tener esta clase,  ide, total, cliente
+class Carrito(BaseModel):
     iden = PrimaryKeyField()
     total = DecimalField()
     cliente = ForeignKeyField(Cliente, backref='carrito') 
-#le definimos los get y set a cada atributo
+
     def getiden(self):
         return self.iden
-    def setiden(self,new):
-        self.iden = new
 
     def gettotal(self):
         return self.total
@@ -38,14 +36,20 @@ class Carrito(BaseModel):  #definimos la clase y pasamos los atributos que va a 
     def get_modelo_producto(self,producto):
         return producto.getmodelo()
 
-    def anadir_producto_al_carrito(self, producto, cantidad):
+    # agrega un produto al carrito, se le pasa un producto y la cantidad del mismo
+    def anadir_producto_al_carrito(self, producto:Producto, cantidad):
         CarritoProducto.create(carrito=self, producto=producto, cantidad=cantidad)
+        producto.setstock(producto.getstock()-cantidad)
+        producto.save
         self.calcular_total()
 
-    def modificar_carrito(self, producto, cantidad):
+    # modifica la cantidad de un producto determinado en el carrito, se le pasa un producto y la cantidad
+    def modificar_carrito(self, producto:Producto, cantidad):
         carrito_producto = CarritoProducto.get_or_none((CarritoProducto.carrito == self) & (CarritoProducto.producto == producto))
         if carrito_producto:
             if cantidad > 0:
+                producto.setstock(producto.getstock()+carrito_producto.cantidad-cantidad)
+                producto.save()
                 carrito_producto.cantidad = cantidad
                 carrito_producto.save()
             else:
@@ -54,9 +58,9 @@ class Carrito(BaseModel):  #definimos la clase y pasamos los atributos que va a 
             return True
         return False
 
+    # confirma la seleccion de productos en el carrito y crea un objeto Venta con los productos del carrito
     def confirmar_carrito(self,estado,fecha,envio,metododepago):
-        from Constructor import db
-        with db.atomic():
+        with getdatabase().atomic():
             venta = Venta.create(
                 estado = estado,
                 fecha = fecha,
@@ -66,9 +70,11 @@ class Carrito(BaseModel):  #definimos la clase y pasamos los atributos que va a 
                 productos = [CarritoProducto.create(producto=item.producto,cantidad=item.cantidad) for item in self.productos]
             )
 
+    # devuelve todas las instancias de CarritoPorducto en Carrito
     def mostrar_carrito(self):
         return self.productos
 
+    # calcula el precio total del conjunto de productos en el carrito
     def calcular_total(self):
         total = sum(item.producto.precio * item.cantidad for item in self.mostrar_carrito())
         self.total = total

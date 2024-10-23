@@ -1,5 +1,6 @@
 from __init__ import *
-#se crea una clase padre BaseModel, y se pasa por parametro MODEL que tiene muuuucho codigo
+# clase base para modelos de la base de datos, que establece la conexión a la base de datos
+# mediante la función getdatabase() para reducir la duplicación de código en los modelos
 class BaseModel(Model): 
-    class Meta:  #se crea la clase Meta
-        database = getdatabase() # creamos el atributo database, con el fin de que me traigha el get data base que es el llamado a la bd q te proporciona peewee
+    class Meta:
+        database = getdatabase()

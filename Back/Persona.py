@@ -10,8 +10,6 @@ class Persona(BaseModel):
 
     def getiden(self):
         return self.iden
-    def setiden(self, new):
-        self.iden = new
 
     def getnombre(self):
         return self.nombre

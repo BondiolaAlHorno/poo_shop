@@ -10,8 +10,6 @@ class Producto(BaseModel):
 
     def getiden(self):
         return self.iden
-    def setiden(self, new):
-        self.iden = new
 
     def getdescripcion(self):
         return self.descripcion
@@ -38,10 +36,12 @@ class Producto(BaseModel):
     def setmodelo(self, new):
         self.modelo = new
 
+    # crea una relacion entre un producto y una categoria
     def agregar_categoria(self, categoria):
         from ProductoCategoria import ProductoCategoria
         ProductoCategoria.create(producto=self, categoria=categoria)
 
+    # elimina una relacion entre un producto y una categoria
     def eliminar_categoria(self, categoria):
         from ProductoCategoria import ProductoCategoria
         try:
@@ -49,40 +49,56 @@ class Producto(BaseModel):
             relacion.delete_instance()
         except ProductoCategoria.DoesNotExist:
             raise ValueError("La categoría no está asociada a este producto.")
-        
+    
+    # retorna una lista de id's de las categorias relacionadas con el producto
     def get_id_categorias(self):
         from ProductoCategoria import ProductoCategoria
         categorias = (ProductoCategoria.select(ProductoCategoria.categoria).where(ProductoCategoria.producto == self))
         return [cat.categoria.id for cat in categorias]
-    
+
+    # retorna una lista de nombres de las categorias relacionadas con el producto
     def get_nombre_categorias(self):
         from ProductoCategoria import ProductoCategoria
         categorias = (ProductoCategoria.select(ProductoCategoria.categoria).where(ProductoCategoria.producto == self))
         return [cat.categoria.nombre for cat in categorias]
     
-    def lista_productos_por_categoria(self,cat):
+    # retorna una lista de productos que contengan una categoria en aprticular
+    @staticmethod
+    def lista_productos_por_categoria(cat):
         from ProductoCategoria import ProductoCategoria
         productos = (ProductoCategoria.select(ProductoCategoria.producto).where(ProductoCategoria.categoria == cat))
         return [producto.producto for producto in productos]
     
+    # retorna los datos del producto
     def obtener_datos_producto(self):
         return [self.iden, self.descripcion, self.precio, self.stock, self.marca, self.modelo]
     
+    # crea un nuevo producto
     @staticmethod
     def añadir_producto(descripcion = None, precio = None, stock = None, marca = None, modelo = None):
         Producto.create(descripcion=descripcion, precio=precio, stock=stock, marca=marca, modelo=modelo)
 
+    # elimina el producto
     def eliminar_producto(self):
         self.delete_instance()
 
-    def modificar_producto(self, descripcion = None, precio = None, stock = None, marca = None, modelo = None):
-        if (descripcion != None) and (descripcion != self.descripcion):
-            self.descripcion = descripcion
-        if (precio != None) and (precio != self.precio):
-            self.precio = precio
-        if (stock != None) and (stock != self.stock):
-            self.stock = stock
-        if (marca != None) and (marca != self.marca):
-            self.marca = marca
-        if (modelo != None) and (modelo != self.modelo):
-            self.modelo = modelo
+    # conjuntod e funciones para modificar los datos del producto
+    def modificar_descripcion(self, descripcion):
+        if self.descripcion != descripcion and descripcion != '':
+            self.setdescripcion(descripcion)
+
+    def modificar_precio(self, precio):
+        if self.precio != precio and precio is not None:
+            self.setprecio(precio)
+
+    def modificar_stock(self, stock):
+        if self.stock != stock and stock is not None:
+            self.setstock(stock)
+
+    def modificar_marca(self, marca):
+        if self.marca != marca and marca != '':
+            self.setmarca(marca)
+
+    def modificar_modelo(self, modelo):
+        if self.modelo != modelo and modelo != '':
+            self.setmodelo(modelo)

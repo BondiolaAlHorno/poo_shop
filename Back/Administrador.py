@@ -1,14 +1,13 @@
 from __init__ import *
 #importamos "Init" que trae a este archivo todas las clases
 
-class Administrador(Persona): #definimos la clase admnin
-    pass #segui scroleando aca no hay nada
+class Administrador(Persona):
+    pass
 
-#pasamos a definir los metodos
+    # crea un administrador junto con su usuario, recibe: nombre, apellido, telefono, documento, mail, direccion, tipo_usuario, usuario, contraseña
     @staticmethod
     def alta_administrador(nombre, apellido, telefono, documento, mail, direccion, tipo_usuario, usuario, contrasenia):
-        from Constructor import db
-        with db.atomic():
+        with getdatabase().atomic():
             administrador = Administrador.create(
                 nombre=nombre,
                 apellido=apellido,
@@ -24,6 +23,7 @@ class Administrador(Persona): #definimos la clase admnin
                 contrasenia,
                 administrador
                 )
-                
-    def eliminarAdmin(self): # elimina lo que esta entre parentesis, en este caso self
+    
+    # elimina un administrador
+    def eliminarAdmin(self):
         self.delete_instance()

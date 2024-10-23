@@ -11,10 +11,10 @@ class Cliente(Persona):
     def gethistorial(self):
         return self.historial
     
+    # crea un cliente junto con su usuario, se le pasa como parametro: nombre, apellido, telefono, documento, mail, direccion, tipo_usuario, usuario, contrasenia
     @staticmethod
     def alta_cliente(nombre, apellido, telefono, documento, mail, direccion, tipo_usuario, usuario, contrasenia):
-        from Constructor import db
-        with db.atomic():
+        with getdatabase().atomic():
             cliente = Cliente.create(
                 nombre=nombre,
                 apellido=apellido,
@@ -30,18 +30,12 @@ class Cliente(Persona):
                 contrasenia,
                 cliente
                 )
-    
-    # def inicioSesion() es un bardo
 
-    # def cerrarSesion() es otro bardo
-
+    # ewtorna todos los datos del cliente
     def verDatosCuenta(self):
         return [self.iden, self.nombre, self.apellido, self.telefono, self.documento, self.mail, self.direccion, self.usuarios.usuario, self.usuarios.contrasenia]
-
-    def modificar_id(self,id):
-        if self.iden != int(id) and id != '':
-            self.setiden(int(id))
     
+    # conjuntod e funciones para modificar los datos del cliente
     def modificar_nombre(self,nombre):
         if self.nombre != nombre and nombre != '':
             self.setnombre(nombre)
@@ -66,5 +60,6 @@ class Cliente(Persona):
         if self.direccion != direccion and direccion != '':
             self.setdireccion(direccion)
 
+    # retorna una lista de tuplas del carrito donde cada una contiene un producto y su cantidad
     def vercarrito(self):
         return [(item.producto, item.cantidad) for item in self.carrito.mostrar_carrito()]

@@ -10,8 +10,6 @@ class Pago(BaseModel):
 
     def getiden(self):
         return self.iden
-    def setiden(self, new):
-        self.iden = new
 
     def gettotal(self):
         return self.total

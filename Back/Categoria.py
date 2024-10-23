@@ -6,24 +6,26 @@ class Categoria(BaseModel):
 
     def getiden(self):
         return self.iden
-    def setiden(self, new):
-        self.iden = new
 
     def getnombre(self):
         return self.nombre
     def setnombre(self, new):
         self.nombre = new
-        
+    
+    # crea una, se le pasa el nombre de la misma
     @staticmethod
     def agregar_categoria(new):
-        return Categoria.create(nombre = new)
+        Categoria.create(nombre = new)
 
+    # elimina la categoria
     def eliminar_categoria(self):
         self.delete_instance()
 
+    # modifica el nombre de la categoria, se le pasa el nombre de la categoria
     def modificar_categoria(self, nuevo_nombre):
         self.setnombre(nuevo_nombre)
 
+    # retorna una lista de categorias
     @staticmethod
     def obtener_lista_categorias():
         return list(Categoria.select())

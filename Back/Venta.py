@@ -10,8 +10,6 @@ class Venta(BaseModel):
 
     def getiden(self):
         return self.iden
-    def setiden(self, new):
-        self.iden = new
 
     def getestado(self):
         return self.estado
@@ -73,9 +71,9 @@ class Venta(BaseModel):
         self.save()
         return self.envio
 
+    # realiza el pedido de los productos y crea una instancia de pago
     def realizar_pedido(self,metododepago,numerodetarjeta):
-        from Constructor import db
-        with db.atomic():
+        with getdatabase().atomic():
             pago = Pago.create(
                 total=self.total+self.envio,
                 metododepago=metododepago,
@@ -88,6 +86,7 @@ class Venta(BaseModel):
             self.pago.realizar_pago()
             self.save()
 
+    # cancela el pedido de los productos y cambia el estade de la instancia de pago a Reembolsado
     def cancelar_pedido(self):
         if self.estado != "Enviado":
             self.estado = "Cancelado"
@@ -95,10 +94,3 @@ class Venta(BaseModel):
             self.save()
             return True
         return False
-
-    def validar_stock(self):
-        for item in self.mostrar_productos:
-            if item.producto.stock < item.cantidad & item.producto.stock > 0:
-                item.cantidad = item.producto.stock
-            elif item.producto.stock == 0:
-                item.delete_instance()
