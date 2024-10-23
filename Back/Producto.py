@@ -69,6 +69,12 @@ class Producto(BaseModel):
         productos = (ProductoCategoria.select(ProductoCategoria.producto).where(ProductoCategoria.categoria == cat))
         return [producto.producto for producto in productos]
     
+    @staticmethod
+    def lista_productos_por_cariterio(criterio):
+        from ProductoCategoria import ProductoCategoria
+        productos = (Producto.select().where(Producto.descripcion.contains(criterio)))
+        return list(productos)
+    
     # retorna los datos del producto
     def obtener_datos_producto(self):
         return [self.iden, self.descripcion, self.precio, self.stock, self.marca, self.modelo]

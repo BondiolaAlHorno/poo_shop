@@ -31,8 +31,8 @@ class Cliente(Persona):
                 cliente
                 )
 
-    # ewtorna todos los datos del cliente
-    def verDatosCuenta(self):
+    # retorna todos los datos del cliente
+    def ver_datos_cuenta(self):
         return [self.iden, self.nombre, self.apellido, self.telefono, self.documento, self.mail, self.direccion, self.usuarios.usuario, self.usuarios.contrasenia]
     
     # conjuntod e funciones para modificar los datos del cliente

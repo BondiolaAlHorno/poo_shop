@@ -36,14 +36,14 @@ class Usuario(BaseModel):
             )
 
     # modifica el nombre del usuario, se le pasa el nuevo nombre de usuario y la contraseña, y si la contraseña es correcta modifica el nombre del usuario
-    def modificarusuario(self,contrasenia,usuario):     #FALTA DOCUMENTACION
+    def modificarusuario(self,contrasenia,usuario):
         if self.contrasenia == contrasenia:
             self.setusuario(usuario)
         else:
             return False
 
     # modifica la contraseña del usuario, se le pasa la nueva contraseña de usuario y la antigua contraseña, y si la contraseña es correcta modifica la contraseña del usuario
-    def modificarcontrasenia(self,vieja,nueva):     #FALTA DOCUMENTACION
+    def modificarcontrasenia(self,vieja,nueva):
         if self.contrasenia == vieja:
             self.setcontrasenia(nueva)
         else:
@@ -51,7 +51,7 @@ class Usuario(BaseModel):
 
     # verifica si un usuario existe, si es asi retorna true y un objeto usuario, sino retorna false, se le pasa un nombre de ususario
     @staticmethod
-    def veriUsuario(usua):
+    def verificar_usuario(usua):
         try:
             pers= Usuario.get(Usuario.usuario==usua)
             return True,pers
@@ -60,7 +60,7 @@ class Usuario(BaseModel):
     
     # verifica si la contraseña carresponde  aun usuario en particular, se le pasa una contraseña y un objeto usuario
     @staticmethod
-    def veriContra(contra,usua:Usuario):
+    def verificar_contrasenia(contra,usua:Usuario):
         if usua.contrasenia == contra:
             return True
         else:
@@ -69,8 +69,8 @@ class Usuario(BaseModel):
     # verifica si el usuario y la contraseña son correctos, si es asi retona true, sino false
     @staticmethod
     def verificar_usuario_contraseña(usua,contra):
-        resultado, usuario = Usuario.veriUsuario(usua)
-        if resultado and Usuario.veriContra(contra,usuario):
+        resultado, usuario = Usuario.verificar_usuario(usua)
+        if resultado and Usuario.verificar_contrasenia(contra,usuario):
             return True
         else:
             return False

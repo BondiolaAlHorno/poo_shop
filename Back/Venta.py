@@ -41,6 +41,15 @@ class Venta(BaseModel):
     def setcliente(self, new):
         self.cliente = new
 
+    def get_nombre_cliente(self):
+        return self.getcliente().nombre
+
+    def get_apellido_cliente(self):
+        return self.getcliente().apellido
+
+    def get_documento_cliente(self):
+        return self.getcliente().documento
+
     def get_metodo_pago_pago(self):
         return self.pago.getmetododepago()
     
@@ -49,21 +58,9 @@ class Venta(BaseModel):
     
     def get_estado_pago(self):
         return self.pago.getestado()
-    
-    def get_precio_producto(self,producto):
-        return producto.precio
-        
-    def get_nombre_cliente(self):
-        return self.cliente.getnombre()
-
-    def get_apellido_cliente(self):
-        return self.cliente.getapellido()
-
-    def get_documento_cliente(self):
-        return self.cliente.getdocumento()
 
     def mostrar_productos(self):
-        return self.productos
+        return [item.producto for item in self.productos]
 
     def calcular_envio(self):
         # Aca tiene que ir la lógica para calcular el costo de envío?

@@ -25,5 +25,5 @@ class Administrador(Persona):
                 )
     
     # elimina un administrador
-    def eliminarAdmin(self):
+    def eliminar_administrador(self):
         self.delete_instance()
