@@ -22,13 +22,18 @@ class Cliente(Persona):
                 documento=documento,
                 mail=mail,
                 direccion=direccion
-            )
+                )
             
             Usuario.crearusuario(
                 tipo_usuario,
                 usuario,
                 contrasenia,
                 cliente
+                )
+            
+            Carrito.create(
+                total=0,
+                cliente=cliente
                 )
 
     # retorna todos los datos del cliente
