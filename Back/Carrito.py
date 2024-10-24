@@ -59,7 +59,7 @@ class Carrito(BaseModel):
         return False
 
     # confirma la seleccion de productos en el carrito y crea un objeto Venta con los productos del carrito
-    def confirmar_carrito(self,estado,fecha,envio,metododepago):
+    def confirmar_carrito(self,estado,fecha,envio):
         with getdatabase().atomic():
             venta = Venta.create(
                 estado = estado,

@@ -36,20 +36,6 @@ class Producto(BaseModel):
     def setmodelo(self, new):
         self.modelo = new
 
-    # crea una relacion entre un producto y una categoria
-    def agregar_categoria(self, categoria):
-        from ProductoCategoria import ProductoCategoria
-        ProductoCategoria.create(producto=self, categoria=categoria)
-
-    # elimina una relacion entre un producto y una categoria
-    def eliminar_categoria(self, categoria):
-        from ProductoCategoria import ProductoCategoria
-        try:
-            relacion = ProductoCategoria.get(ProductoCategoria.producto == self, ProductoCategoria.categoria == categoria)
-            relacion.delete_instance()
-        except ProductoCategoria.DoesNotExist:
-            raise ValueError("La categoría no está asociada a este producto.")
-    
     # retorna una lista de id's de las categorias relacionadas con el producto
     def get_id_categorias(self):
         from ProductoCategoria import ProductoCategoria
@@ -62,6 +48,20 @@ class Producto(BaseModel):
         categorias = (ProductoCategoria.select(ProductoCategoria.categoria).where(ProductoCategoria.producto == self))
         return [cat.categoria.nombre for cat in categorias]
     
+    # crea una relacion entre un producto y una categoria
+    def agregar_categoria(self, categoria:Categoria):
+        from ProductoCategoria import ProductoCategoria
+        ProductoCategoria.create(producto=self, categoria=categoria)
+
+    # elimina una relacion entre un producto y una categoria
+    def eliminar_categoria(self, categoria:Categoria):
+        from ProductoCategoria import ProductoCategoria
+        try:
+            relacion = ProductoCategoria.get(ProductoCategoria.producto == self, ProductoCategoria.categoria == categoria)
+            relacion.delete_instance()
+        except ProductoCategoria.DoesNotExist:
+            raise ValueError("La categoría no está asociada a este producto.")
+        
     # retorna una lista de productos que contengan una categoria en aprticular
     @staticmethod
     def lista_productos_por_categoria(cat):

@@ -65,6 +65,40 @@ class Cliente(Persona):
         if self.direccion != direccion and direccion != '':
             self.setdireccion(direccion)
 
+    # @staticmethod
+    # def enviar_mail_de_verificacion(mail:str):
+    #     import smtplib
+    #     from email.mime.text import MIMEText
+    #     from email.mime.multipart import MIMEMultipart
+
+    #     smtp_server = 'smtp.gmail.com'
+    #     smtp_port = 587
+    #     usuario = 'hugogilardoniestudia@gmail.com'
+    #     contrasenia = 'Dibujeelpatron123@'
+
+    #     de = 'hugogilardoniestudia@gmail.com'
+    #     para = mail
+    #     asunto = 'prueba de correo de confirmacion'
+    #     cuerpo = 'este es el correo de confirmacion'
+
+    #     msg = MIMEMultipart()
+    #     msg['From'] = de
+    #     msg['To'] = para
+    #     msg['Subject'] = asunto
+
+    #     msg.attach(MIMEText(cuerpo, 'plain'))
+
+    #     try:
+    #         server = smtplib.SMTP(smtp_server, smtp_port)
+    #         server.starttls()
+    #         server.login(usuario, contrasenia)
+    #         server.send_message(msg)
+    #         server.quit()
+    #         return True
+    #     except:
+    #         server.quit()
+    #         return False
+
     # retorna una lista de tuplas del carrito donde cada una contiene un producto y su cantidad
     def vercarrito(self):
         return [(item.producto, item.cantidad) for item in self.carrito.mostrar_carrito()]
