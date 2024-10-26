@@ -24,6 +24,7 @@ class Categoria(BaseModel):
     # modifica el nombre de la categoria, se le pasa el nombre de la categoria
     def modificar_categoria(self, nuevo_nombre):
         self.setnombre(nuevo_nombre)
+        self.save()
 
     # retorna una lista de categorias
     @staticmethod

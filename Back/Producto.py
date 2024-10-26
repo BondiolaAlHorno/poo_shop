@@ -40,7 +40,7 @@ class Producto(BaseModel):
     def get_id_categorias(self):
         from ProductoCategoria import ProductoCategoria
         categorias = (ProductoCategoria.select(ProductoCategoria.categoria).where(ProductoCategoria.producto == self))
-        return [cat.categoria.id for cat in categorias]
+        return [cat.categoria.iden for cat in categorias]
 
     # retorna una lista de nombres de las categorias relacionadas con el producto
     def get_nombre_categorias(self):
@@ -92,19 +92,24 @@ class Producto(BaseModel):
     def modificar_descripcion(self, descripcion):
         if self.descripcion != descripcion and descripcion != '':
             self.setdescripcion(descripcion)
+            self.save()
 
     def modificar_precio(self, precio):
         if self.precio != precio and precio is not None:
             self.setprecio(precio)
+            self.save()
 
     def modificar_stock(self, stock):
         if self.stock != stock and stock is not None:
             self.setstock(stock)
+            self.save()
 
     def modificar_marca(self, marca):
         if self.marca != marca and marca != '':
             self.setmarca(marca)
+            self.save()
 
     def modificar_modelo(self, modelo):
         if self.modelo != modelo and modelo != '':
             self.setmodelo(modelo)
+            self.save()
