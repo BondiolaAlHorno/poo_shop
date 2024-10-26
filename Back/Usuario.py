@@ -60,7 +60,7 @@ class Usuario(BaseModel):
     
     # verifica si la contraseña carresponde  aun usuario en particular, se le pasa una contraseña y un objeto usuario
     @staticmethod
-    def verificar_contrasenia(contra,usua:Usuario):
+    def verificar_contrasenia(contra,usua:'Usuario'):
         if usua.contrasenia == contra:
             return True
         else:
