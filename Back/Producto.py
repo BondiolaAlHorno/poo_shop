@@ -93,23 +93,38 @@ class Producto(BaseModel):
         if self.descripcion != descripcion and descripcion != '':
             self.setdescripcion(descripcion)
             self.save()
+            return True
+        else:
+            return False
 
     def modificar_precio(self, precio):
         if self.precio != precio and precio is not None:
             self.setprecio(precio)
             self.save()
+            return True
+        else:
+            return False
 
     def modificar_stock(self, stock):
         if self.stock != stock and stock is not None:
             self.setstock(stock)
             self.save()
+            return True
+        else:
+            return False
 
     def modificar_marca(self, marca):
         if self.marca != marca and marca != '':
             self.setmarca(marca)
             self.save()
+            return True
+        else:
+            return False
 
     def modificar_modelo(self, modelo):
         if self.modelo != modelo and modelo != '':
             self.setmodelo(modelo)
             self.save()
+            return True
+        else:
+            return False

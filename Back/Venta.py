@@ -60,7 +60,7 @@ class Venta(BaseModel):
         return self.pago.getestado()
 
     def mostrar_productos(self):
-        return [item.producto for item in self.productos]
+        return [(item.producto.modelo, item.cantidad, format(float(item.producto.precio), '.2f')) for item in self.productos]
 
     def calcular_envio(self):
         # Aca tiene que ir la lógica para calcular el costo de envío?
@@ -70,24 +70,29 @@ class Venta(BaseModel):
 
     # realiza el pedido de los productos y crea una instancia de pago
     def realizar_pedido(self,metododepago,numerodetarjeta):
+        from Pago import Pago
         with getdatabase().atomic():
             pago = Pago.create(
                 total=self.total+self.envio,
                 metododepago=metododepago,
                 numerodetarjeta=numerodetarjeta,
-                estado='completo'
+                estado='pendiente',
+                venta = self
                 )
             self.pago = pago
-            self.validar_stock()
             self.estado = "Confirmado"
             self.pago.realizar_pago()
             self.save()
+            return True
+        return False
 
     # cancela el pedido de los productos y cambia el estade de la instancia de pago a Reembolsado
     def cancelar_pedido(self):
         if self.estado != "Enviado":
             self.estado = "Cancelado"
-            self.pago.setestado("Reembolsado")
+            pago = self.pago.get()
+            pago.setestado("Reembolsado")
             self.save()
+            pago.save()
             return True
         return False

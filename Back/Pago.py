@@ -6,7 +6,7 @@ class Pago(BaseModel):
     metododepago = CharField()
     numerodetarjeta = CharField()
     estado = CharField()
-    venta = ForeignKeyField(Venta, backref='pago')
+    venta = ForeignKeyField(Venta, backref='pago', unique=True)
 
     def getiden(self):
         return self.iden

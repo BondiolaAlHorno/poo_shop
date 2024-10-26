@@ -6,7 +6,7 @@ class Administrador(Persona):
 
     # crea un administrador junto con su usuario, recibe: nombre, apellido, telefono, documento, mail, direccion, tipo_usuario, usuario, contraseña
     @staticmethod
-    def alta_administrador(nombre, apellido, telefono, documento, mail, tipo_usuario, usuario, contrasenia):
+    def alta_administrador(nombre, apellido, telefono, documento, mail, usuario, contrasenia):
         with getdatabase().atomic():
             administrador = Administrador.create(
                 nombre=nombre,
@@ -17,7 +17,7 @@ class Administrador(Persona):
             )
             
             Usuario.crearusuario(
-                tipo_usuario,
+                'administrador',
                 usuario,
                 contrasenia,
                 administrador

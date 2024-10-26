@@ -3,7 +3,7 @@ from __init__ import *
 class Carrito(BaseModel):
     iden = PrimaryKeyField()
     total = DecimalField()
-    cliente = ForeignKeyField(Cliente, backref='carrito') 
+    cliente = ForeignKeyField(Cliente, backref='carrito', unique=True) 
 
     def getiden(self):
         return self.iden
@@ -38,13 +38,15 @@ class Carrito(BaseModel):
 
     # agrega un produto al carrito, se le pasa un producto y la cantidad del mismo
     def anadir_producto_al_carrito(self, producto:'Producto', cantidad):
+        from CarritoProducto import CarritoProducto
         CarritoProducto.create(carrito=self, producto=producto, cantidad=cantidad)
         producto.setstock(producto.getstock()-cantidad)
-        producto.save
+        producto.save()
         self.calcular_total()
 
     # modifica la cantidad de un producto determinado en el carrito, se le pasa un producto y la cantidad
     def modificar_carrito(self, producto:'Producto', cantidad):
+        from CarritoProducto import CarritoProducto
         carrito_producto = CarritoProducto.get_or_none((CarritoProducto.carrito == self) & (CarritoProducto.producto == producto))
         if carrito_producto:
             if cantidad > 0:
@@ -53,6 +55,8 @@ class Carrito(BaseModel):
                 carrito_producto.cantidad = cantidad
                 carrito_producto.save()
             else:
+                producto.setstock(producto.getstock()+carrito_producto.cantidad-cantidad)
+                producto.save()
                 carrito_producto.delete_instance()
             self.calcular_total()
             return True
@@ -60,15 +64,17 @@ class Carrito(BaseModel):
 
     # confirma la seleccion de productos en el carrito y crea un objeto Venta con los productos del carrito
     def confirmar_carrito(self,estado,fecha,envio):
+        from VentaProducto import VentaProducto
+        from Venta import Venta
         with getdatabase().atomic():
             venta = Venta.create(
                 estado = estado,
                 fecha = fecha,
                 envio = envio,
                 total = self.total,
-                cliente = self.cliente,
-                productos = [CarritoProducto.create(producto=item.producto,cantidad=item.cantidad) for item in self.productos]
+                cliente = self.cliente
             )
+            [VentaProducto.create(venta=venta,producto=item.producto,cantidad=item.cantidad) for item in self.productos]
 
     # devuelve todas las instancias de CarritoPorducto en Carrito
     def mostrar_carrito(self):
