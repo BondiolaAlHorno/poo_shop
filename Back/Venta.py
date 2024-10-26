@@ -63,7 +63,6 @@ class Venta(BaseModel):
         return [(item.producto.modelo, item.cantidad, format(float(item.producto.precio), '.2f')) for item in self.productos]
 
     def calcular_envio(self):
-        # Aca tiene que ir la lógica para calcular el costo de envío?
         self.envio = 10.0
         self.save()
         return self.envio
@@ -86,7 +85,7 @@ class Venta(BaseModel):
             return True
         return False
 
-    # cancela el pedido de los productos y cambia el estade de la instancia de pago a Reembolsado
+    # cancela el pedido de los productos y cambia el estado de la instancia de pago a Reembolsado
     def cancelar_pedido(self):
         if self.estado != "Enviado":
             self.estado = "Cancelado"

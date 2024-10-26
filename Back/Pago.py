@@ -37,6 +37,5 @@ class Pago(BaseModel):
         self.venta = new
         
     def realizar_pago(self):
-        # aca tiene que ir la logica para procesar el pago?
         self.estado = "Completado"
         self.save()
