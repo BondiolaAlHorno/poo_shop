@@ -13,7 +13,7 @@ class Cliente(Persona):
     
     # crea un cliente junto con su usuario, se le pasa como parametro: nombre, apellido, telefono, documento, mail, direccion, tipo_usuario, usuario, contrasenia
     @staticmethod
-    def alta_cliente(nombre, apellido, telefono, documento, mail, direccion, usuario, contrasenia):
+    def alta_cliente(nombre:str, apellido:str, telefono:str, documento:str, mail:str, direccion:str, usuario:str, contrasenia:str):
         from Carrito import Carrito
         with getdatabase().atomic():
             cliente = Cliente.create(
@@ -42,7 +42,7 @@ class Cliente(Persona):
         return [self.iden, self.nombre, self.apellido, self.telefono, self.documento, self.mail, self.direccion, self.usuario.get().usuario, self.usuario.get().contrasenia]
     
     # conjuntod e funciones para modificar los datos del cliente
-    def modificar_nombre(self,nombre):
+    def modificar_nombre(self,nombre:str):
         if self.nombre != nombre and nombre != '':
             self.setnombre(nombre)
             self.save()
@@ -50,7 +50,7 @@ class Cliente(Persona):
         else:
             return False
     
-    def modificar_apellido(self,apellido):
+    def modificar_apellido(self,apellido:str):
         if self.apellido != apellido and apellido != '':
             self.setapellido(apellido)
             self.save()
@@ -58,7 +58,7 @@ class Cliente(Persona):
         else:
             return False
     
-    def modificar_telefono(self,telefono):
+    def modificar_telefono(self,telefono:str):
         if self.telefono != telefono and telefono != '':
             self.settelefono(telefono)
             self.save()
@@ -66,7 +66,7 @@ class Cliente(Persona):
         else:
             return False
     
-    def modificar_documento(self,documento):
+    def modificar_documento(self,documento:str):
         if self.documento != documento and documento != '':
             self.setdocumento(documento)
             self.save()
@@ -74,7 +74,7 @@ class Cliente(Persona):
         else:
             return False
     
-    def modificar_mail(self,mail):
+    def modificar_mail(self,mail:str):
         if self.mail != mail and mail != '':
             self.setmail(mail)
             self.save()
@@ -82,7 +82,7 @@ class Cliente(Persona):
         else:
             return False
     
-    def modificar_direccion(self,direccion):
+    def modificar_direccion(self,direccion:str):
         if self.direccion != direccion and direccion != '':
             self.setdireccion(direccion)
             self.save()

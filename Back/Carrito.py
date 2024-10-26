@@ -37,7 +37,7 @@ class Carrito(BaseModel):
         return producto.getmodelo()
 
     # agrega un produto al carrito, se le pasa un producto y la cantidad del mismo
-    def anadir_producto_al_carrito(self, producto:'Producto', cantidad):
+    def anadir_producto_al_carrito(self, producto:'Producto', cantidad:int):
         from CarritoProducto import CarritoProducto
         CarritoProducto.create(carrito=self, producto=producto, cantidad=cantidad)
         producto.setstock(producto.getstock()-cantidad)
@@ -45,7 +45,7 @@ class Carrito(BaseModel):
         self.calcular_total()
 
     # modifica la cantidad de un producto determinado en el carrito, se le pasa un producto y la cantidad
-    def modificar_carrito(self, producto:'Producto', cantidad):
+    def modificar_carrito(self, producto:'Producto', cantidad:int):
         from CarritoProducto import CarritoProducto
         carrito_producto = CarritoProducto.get_or_none((CarritoProducto.carrito == self) & (CarritoProducto.producto == producto))
         if carrito_producto:
@@ -63,7 +63,7 @@ class Carrito(BaseModel):
         return False
 
     # confirma la seleccion de productos en el carrito y crea un objeto Venta con los productos del carrito
-    def confirmar_carrito(self,estado,fecha,envio):
+    def confirmar_carrito(self,estado:str,fecha:str,envio:float):
         from VentaProducto import VentaProducto
         from Venta import Venta
         with getdatabase().atomic():

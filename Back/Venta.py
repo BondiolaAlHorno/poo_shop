@@ -68,7 +68,7 @@ class Venta(BaseModel):
         return self.envio
 
     # realiza el pedido de los productos y crea una instancia de pago
-    def realizar_pedido(self,metododepago,numerodetarjeta):
+    def realizar_pedido(self,metododepago:str,numerodetarjeta:str):
         from Pago import Pago
         with getdatabase().atomic():
             pago = Pago.create(

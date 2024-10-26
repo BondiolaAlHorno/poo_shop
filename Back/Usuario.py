@@ -27,7 +27,7 @@ class Usuario(BaseModel):
 
     # crea un usuario
     @staticmethod
-    def crearusuario(tipo_usuario,usuario,contrasenia,persona:'Persona'):
+    def crearusuario(tipo_usuario:str,usuario:str,contrasenia:str,persona:'Persona'):
         Usuario.create(
                 tipo=tipo_usuario,
                 usuario=usuario,
@@ -36,7 +36,7 @@ class Usuario(BaseModel):
             )
 
     # modifica el nombre del usuario, se le pasa el nuevo nombre de usuario y la contraseña, y si la contraseña es correcta modifica el nombre del usuario
-    def modificarusuario(self,contrasenia,usuario):
+    def modificarusuario(self,contrasenia:str,usuario:str):
         if self.contrasenia == contrasenia:
             self.setusuario(usuario)
             self.save()
@@ -45,7 +45,7 @@ class Usuario(BaseModel):
             return False
 
     # modifica la contraseña del usuario, se le pasa la nueva contraseña de usuario y la antigua contraseña, y si la contraseña es correcta modifica la contraseña del usuario
-    def modificarcontrasenia(self,vieja,nueva):
+    def modificarcontrasenia(self,vieja:str,nueva:str):
         if self.contrasenia == vieja:
             self.setcontrasenia(nueva)
             self.save()
@@ -55,7 +55,7 @@ class Usuario(BaseModel):
 
     # verifica si un usuario existe, si es asi retorna true y un objeto usuario, sino retorna false, se le pasa un nombre de ususario
     @staticmethod
-    def verificar_usuario(usua):
+    def verificar_usuario(usua:str):
         try:
             pers= Usuario.get(Usuario.usuario==usua)
             return True,pers
@@ -64,7 +64,7 @@ class Usuario(BaseModel):
     
     # verifica si la contraseña carresponde  aun usuario en particular, se le pasa una contraseña y un objeto usuario
     @staticmethod
-    def verificar_contrasenia(contra,usua:'Usuario'):
+    def verificar_contrasenia(contra:str,usua:'Usuario'):
         if usua.contrasenia == contra:
             return True
         else:
@@ -72,7 +72,7 @@ class Usuario(BaseModel):
         
     # verifica si el usuario y la contraseña son correctos, si es asi retona true, sino false
     @staticmethod
-    def verificar_usuario_contraseña(usua,contra):
+    def verificar_usuario_contraseña(usua:str,contra:str):
         resultado, usuario = Usuario.verificar_usuario(usua)
         if resultado and Usuario.verificar_contrasenia(contra,usuario):
             return True

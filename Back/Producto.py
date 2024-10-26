@@ -64,13 +64,13 @@ class Producto(BaseModel):
         
     # retorna una lista de productos que contengan una categoria en aprticular
     @staticmethod
-    def lista_productos_por_categoria(cat):
+    def lista_productos_por_categoria(cat:Categoria):
         from ProductoCategoria import ProductoCategoria
         productos = (ProductoCategoria.select(ProductoCategoria.producto).where(ProductoCategoria.categoria == cat))
         return [producto.producto for producto in productos]
     
     @staticmethod
-    def lista_productos_por_cariterio(criterio):
+    def lista_productos_por_cariterio(criterio:str):
         from ProductoCategoria import ProductoCategoria
         productos = (Producto.select().where(Producto.descripcion.contains(criterio)))
         return list(productos)
@@ -81,7 +81,7 @@ class Producto(BaseModel):
     
     # crea un nuevo producto
     @staticmethod
-    def añadir_producto(descripcion = None, precio = None, stock = None, marca = None, modelo = None):
+    def añadir_producto(descripcion:str = None, precio:float = None, stock:int = None, marca:str = None, modelo:str = None):
         Producto.create(descripcion=descripcion, precio=precio, stock=stock, marca=marca, modelo=modelo)
 
     # elimina el producto
@@ -89,7 +89,7 @@ class Producto(BaseModel):
         self.delete_instance()
 
     # conjuntod e funciones para modificar los datos del producto
-    def modificar_descripcion(self, descripcion):
+    def modificar_descripcion(self, descripcion:str):
         if self.descripcion != descripcion and descripcion != '':
             self.setdescripcion(descripcion)
             self.save()
@@ -97,7 +97,7 @@ class Producto(BaseModel):
         else:
             return False
 
-    def modificar_precio(self, precio):
+    def modificar_precio(self, precio:float):
         if self.precio != precio and precio is not None:
             self.setprecio(precio)
             self.save()
@@ -105,7 +105,7 @@ class Producto(BaseModel):
         else:
             return False
 
-    def modificar_stock(self, stock):
+    def modificar_stock(self, stock:int):
         if self.stock != stock and stock is not None:
             self.setstock(stock)
             self.save()
@@ -113,7 +113,7 @@ class Producto(BaseModel):
         else:
             return False
 
-    def modificar_marca(self, marca):
+    def modificar_marca(self, marca:str):
         if self.marca != marca and marca != '':
             self.setmarca(marca)
             self.save()
@@ -121,7 +121,7 @@ class Producto(BaseModel):
         else:
             return False
 
-    def modificar_modelo(self, modelo):
+    def modificar_modelo(self, modelo:str):
         if self.modelo != modelo and modelo != '':
             self.setmodelo(modelo)
             self.save()

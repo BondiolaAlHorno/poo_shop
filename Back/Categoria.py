@@ -14,7 +14,7 @@ class Categoria(BaseModel):
     
     # crea una, se le pasa el nombre de la misma
     @staticmethod
-    def agregar_categoria(new):
+    def agregar_categoria(new:str):
         Categoria.create(nombre = new)
 
     # elimina la categoria
@@ -22,7 +22,7 @@ class Categoria(BaseModel):
         self.delete_instance()
 
     # modifica el nombre de la categoria, se le pasa el nombre de la categoria
-    def modificar_categoria(self, nuevo_nombre):
+    def modificar_categoria(self, nuevo_nombre:str):
         self.setnombre(nuevo_nombre)
         self.save()
 
