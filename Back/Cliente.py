@@ -16,20 +16,21 @@ class Cliente(Persona):
     def alta_cliente(nombre:str, apellido:str, telefono:str, documento:str, mail:str, direccion:str, usuario:str, contrasenia:str):
         from Carrito import Carrito
         with getdatabase().atomic():
+
+            user=Usuario.crearusuario(
+                'cliente',
+                usuario,
+                contrasenia
+                )
+            
             cliente = Cliente.create(
                 nombre=nombre,
                 apellido=apellido,
                 telefono=telefono,
                 documento=documento,
                 mail=mail,
-                direccion=direccion
-                )
-            
-            Usuario.crearusuario(
-                'cliente',
-                usuario,
-                contrasenia,
-                cliente
+                direccion=direccion,
+                usuario=user
                 )
             
             Carrito.create(
@@ -39,7 +40,7 @@ class Cliente(Persona):
 
     # retorna todos los datos del cliente
     def ver_datos_cuenta(self):
-        return [self.iden, self.nombre, self.apellido, self.telefono, self.documento, self.mail, self.direccion, self.usuario.get().usuario, self.usuario.get().contrasenia]
+        return [self.iden, self.nombre, self.apellido, self.telefono, self.documento, self.mail, self.direccion, self.usuario.usuario]
     
     # conjuntod e funciones para modificar los datos del cliente
     def modificar_nombre(self,nombre:str):

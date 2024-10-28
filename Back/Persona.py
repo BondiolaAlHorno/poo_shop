@@ -7,6 +7,7 @@ class Persona(BaseModel):
     telefono = CharField()
     documento = CharField()
     mail = CharField()
+    usuario = ForeignKeyField(Usuario, backref='persona',unique=True)
 
     def getiden(self):
         return self.iden

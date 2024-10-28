@@ -36,6 +36,12 @@ class Producto(BaseModel):
     def setmodelo(self, new):
         self.modelo = new
 
+    # retorna una lista de las categorias relacionadas con el producto
+    def get_categorias(self):
+        from ProductoCategoria import ProductoCategoria
+        categorias = (ProductoCategoria.select(ProductoCategoria.categoria).where(ProductoCategoria.producto == self))
+        return [cat.categoria for cat in categorias]
+
     # retorna una lista de id's de las categorias relacionadas con el producto
     def get_id_categorias(self):
         from ProductoCategoria import ProductoCategoria
@@ -62,6 +68,11 @@ class Producto(BaseModel):
         except ProductoCategoria.DoesNotExist:
             raise ValueError("La categoría no está asociada a este producto.")
         
+    # retorna una lista de todos los productos
+    @staticmethod
+    def lista_de_productos():
+        return Producto.select()
+
     # retorna una lista de productos que contengan una categoria en aprticular
     @staticmethod
     def lista_productos_por_categoria(cat:Categoria):

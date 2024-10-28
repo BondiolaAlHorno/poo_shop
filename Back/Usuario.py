@@ -5,7 +5,6 @@ class Usuario(BaseModel):
     tipo = CharField()
     usuario = CharField()
     contrasenia = CharField()
-    persona = ForeignKeyField(Persona, backref='usuario', unique=True)
 
     def getiden(self):
         return self.iden
@@ -27,12 +26,11 @@ class Usuario(BaseModel):
 
     # crea un usuario
     @staticmethod
-    def crearusuario(tipo_usuario:str,usuario:str,contrasenia:str,persona:'Persona'):
-        Usuario.create(
+    def crearusuario(tipo_usuario:str,usuario:str,contrasenia:str):
+        return Usuario.create(
                 tipo=tipo_usuario,
                 usuario=usuario,
-                contrasenia=contrasenia,
-                persona=persona
+                contrasenia=contrasenia
             )
 
     # modifica el nombre del usuario, se le pasa el nuevo nombre de usuario y la contraseña, y si la contraseña es correcta modifica el nombre del usuario

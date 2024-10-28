@@ -39,7 +39,12 @@ class Carrito(BaseModel):
     # agrega un produto al carrito, se le pasa un producto y la cantidad del mismo
     def anadir_producto_al_carrito(self, producto:'Producto', cantidad:int):
         from CarritoProducto import CarritoProducto
-        CarritoProducto.create(carrito=self, producto=producto, cantidad=cantidad)
+        carrito_producto = CarritoProducto.get_or_none((CarritoProducto.carrito == self) & (CarritoProducto.producto == producto))
+        if carrito_producto:
+            carrito_producto.cantidad += cantidad
+            carrito_producto.save()
+        else:
+            CarritoProducto.create(carrito=self, producto=producto, cantidad=cantidad)
         producto.setstock(producto.getstock()-cantidad)
         producto.save()
         self.calcular_total()
@@ -63,18 +68,19 @@ class Carrito(BaseModel):
         return False
 
     # confirma la seleccion de productos en el carrito y crea un objeto Venta con los productos del carrito
-    def confirmar_carrito(self,estado:str,fecha:str,envio:float):
+    def confirmar_carrito(self,fecha:str,envio:float):
         from VentaProducto import VentaProducto
         from Venta import Venta
         with getdatabase().atomic():
             venta = Venta.create(
-                estado = estado,
+                estado = 'Pendiente',
                 fecha = fecha,
                 envio = envio,
                 total = self.total,
                 cliente = self.cliente
             )
             [VentaProducto.create(venta=venta,producto=item.producto,cantidad=item.cantidad) for item in self.productos]
+        return venta
 
     # devuelve todas las instancias de CarritoPorducto en Carrito
     def mostrar_carrito(self):
@@ -82,7 +88,11 @@ class Carrito(BaseModel):
 
     # calcula el precio total del conjunto de productos en el carrito
     def calcular_total(self):
-        total = sum(item.producto.precio * item.cantidad for item in self.mostrar_carrito())
-        self.total = total
+        carritoproductos = self.mostrar_carrito()
+        if len(list(carritoproductos)):
+            total = sum(item.producto.precio * item.cantidad for item in carritoproductos)
+            self.total = total
+        else:
+            self.total = 0.0
         self.save()
         return self.total

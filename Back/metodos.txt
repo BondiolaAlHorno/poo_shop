@@ -1,0 +1,201 @@
+Usuario:
+	Crear usuario (
+        tipo:str, 
+        nombre_usuario:str, 
+        contraseña:str,
+        )
+	Modificar usuario (
+        self,
+        contraseña:str, 
+        nuevo_nombre_usuario:str
+        )
+	Modificar contraseña (
+        self,
+        contraseña_vieja:str, 
+        contraseña_nueva:str
+        )
+	Verificar Usuario (
+        nombre_usuario:str
+        )
+	Verificar Contraseña (
+        contraseña:str, 
+        usuario:Usuario
+        )
+	Verificar usuario contraseña (
+        nombre_usuario:str, 
+        contraseña:str
+        )
+Administrador:
+	Alta administrador (
+        nombre:str, 
+        apellido:str, 
+        teléfono:str, 
+        documento:str, 
+        mail:str,
+        nombre_usuario:str, 
+        contraseña:str
+        )
+	Eliminar administrador(
+        self
+        )
+    Iniciar sesión
+	Cerrar sesión
+Cliente:
+	Alta cliente (
+        nombre:str, 
+        apellido:str, 
+        teléfono:str, 
+        documento:str, 
+        mail:str, 
+        dirección:str,
+        usuario:str, 
+        contraseña:str
+        )
+	Iniciar sesión
+	Cerrar sesión
+	Ver datos cuenta(
+        self
+        )
+	Modificar nombre (
+        self,
+        nuevo_nombre:str
+        )
+	Modificar apellido (
+        self,
+        nuevo_apellido:str
+        )
+	Modificar teléfono (
+        self,
+        nuevo_telefono:str
+        )
+	Modificar documento (
+        self,
+        nuevo_documento:str
+        )
+	Modificar mail (
+        self,
+        nuevo_mail:str
+        )
+	Modificar dirección (
+        self,
+        nueva_direccion:str
+        )
+	Enviar mail de verificación (
+        mail:str
+        )
+	Confirmar mail de verificación()
+	Ver Carrito(
+        self
+        )
+Categoría:
+    Agregar categoría (
+        nombre_categoria:str
+        )
+    Eliminar categoría(
+        self
+        )
+    Modificar categoría (
+        self,
+        nuevo_nombre_categoria:str
+        )
+    Obtener lista categorías()
+Producto:
+    Get Categorias(
+        self
+    )
+    Get ID Categorias(
+        self
+        )
+    Get Nombre Categorias(
+        self
+        )
+    Agregar categoría (
+        self,
+        categoría:Categoria
+        )
+    Eliminar categoría (
+        self,
+        categoría:Categoria
+        )
+    Lista de productos()
+    Lista productos por categoría (
+        categoría:Categoria
+        )
+    Lista productos por criterios (
+        palabra:str
+        )
+    Obtener datos producto(
+        self,
+        )
+    Añadir producto (
+        descripción:str,
+        precio:float,
+        stock:int,
+        marca:str,
+        modelo:str
+        )
+    Eliminar producto(
+        self
+        )
+    Modificar descripción (
+        self,
+        nueva_decripcion:str
+        )
+    Modificar precio (
+        self,
+        nuevo_precio:float
+        )
+    Modificar stock (
+        self,
+        nuevo_stock:int
+        )
+    Modificar marca (
+        self,
+        nueva_marca:str
+        )
+    Modificar modelo (
+        self,
+        nuevo_modelo:str
+        )
+Carrito:
+    Añadir producto al carrito (
+        self,
+        producto:Producto, 
+        cantidad:int
+        )
+    Modificar carrito (
+        self,
+        producto:Producto, 
+        cantidad,int
+        )
+    Confirmar carrito (
+        self, 
+        fecha:str, 
+        envio:float
+        )
+    Mostrar carrito(
+        self
+        )
+    Calcular Total(
+        self
+        )
+Venta:
+    Mostrar productos(
+        self
+        )
+    Calcular envío(
+        self
+        )
+    Realizar pedido (
+        self,
+        método_de_pago:str, 
+        numero_de_tarjeta:str
+        )
+    Cancelar pedido(
+        self
+        )
+Pago:
+    Realizar pago(
+        self
+        )
+ 

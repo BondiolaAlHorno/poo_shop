@@ -8,20 +8,21 @@ class Administrador(Persona):
     @staticmethod
     def alta_administrador(nombre:str, apellido:str, telefono:str, documento:str, mail:str, usuario:str, contrasenia:str):
         with getdatabase().atomic():
+            
+            user=Usuario.crearusuario(
+                'administrador',
+                usuario,
+                contrasenia
+                )
+            
             administrador = Administrador.create(
                 nombre=nombre,
                 apellido=apellido,
                 telefono=telefono,
                 documento=documento,
                 mail=mail,
-            )
-            
-            Usuario.crearusuario(
-                'administrador',
-                usuario,
-                contrasenia,
-                administrador
-                )
+                usuario=user
+            )            
     
     # elimina un administrador
     def eliminar_administrador(self):
