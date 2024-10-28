@@ -25,6 +25,11 @@ Usuario:
         nombre_usuario:str, 
         contraseña:str
         )
+    Iniciar sesión(
+        usuario:str,
+        contraseña:str
+    )
+	Cerrar sesión
 Administrador:
 	Alta administrador (
         nombre:str, 
@@ -38,8 +43,6 @@ Administrador:
 	Eliminar administrador(
         self
         )
-    Iniciar sesión
-	Cerrar sesión
 Cliente:
 	Alta cliente (
         nombre:str, 
@@ -51,8 +54,6 @@ Cliente:
         usuario:str, 
         contraseña:str
         )
-	Iniciar sesión
-	Cerrar sesión
 	Ver datos cuenta(
         self
         )

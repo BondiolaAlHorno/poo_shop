@@ -20,26 +20,6 @@ def ceratetables():
 
 ceratetables()
 
-def iniciarsesion(usuario,contrasenia):
-    while True:
-        if usuario == '' and contrasenia == '':
-                return None
-        if Usuario.verificar_usuario_contraseña(usuario,contrasenia):
-            user = Usuario.get(Usuario.usuario == usuario, Usuario.contrasenia == contrasenia)
-            if user.tipo == 'cliente':
-                pers = Cliente.get(Cliente.usuario == user)
-            else:
-                pers = Administrador.get(Administrador.usuario == user)
-            return pers
-        else:
-            os.system('cls')
-            print('Usuario o Contraseña incorretos')
-            usuario=input('Usuario:  ')
-            contrasenia=input('Contraseña:  ')
-            if usuario == '' and contrasenia == '':
-                return None
-
-
 while True:
     os.system('cls')
     
@@ -52,7 +32,7 @@ while True:
 
     if entrada == '1':
         os.system('cls')
-        pers = iniciarsesion(input('Usuario:  '),input('Contraseña:  '))
+        pers = Usuario.iniciarsesion(input('Usuario:  '),input('Contraseña:  '))
 
         if pers!=None and pers.usuario.tipo == 'cliente':
             while True:
@@ -63,7 +43,7 @@ while True:
                 '3. Carrito\n'
                 '4. Productos\n'
                 '5. Compra\n'
-                'ENTER. Salir'
+                'ENTER. Cerrar Sesion'
                 )
                 entrada2=input()
 
@@ -79,7 +59,7 @@ while True:
                             '6. Modificar Direccion\n'
                             '7. Modificar Usuario\n'
                             '8. Modificar Contraseña\n'
-                            'ENTER. Salir'
+                            'ENTER. Salir\n'
                         )
 
                         modificar = input()
@@ -149,6 +129,7 @@ while True:
                             f'TOTAL: {total}\n'
                             '1. Ver y Modificar el Carrito\n'
                             '2. Confirmar el Carrito\n'
+                            'ENTER. Salir\n'
                         )
                         if selectcarrito=='1':
                             while True:
@@ -162,7 +143,13 @@ while True:
                                 else:
                                     pers.carrito.get().modificar_carrito(pers.carrito.get().mostrar_carrito()[int(elemento)].producto,int(input('Indique la nueva cantidad\n')))
                         if selectcarrito=='2':
-                            carritoventa=pers.carrito.get().confirmar_carrito(datetime.now().strftime("%Y-%m-%d %H:%M:%S"),6700.0)
+                            if len(pers.carrito.get().mostrar_carrito())>0:
+                                carritoventa=pers.carrito.get().confirmar_carrito(datetime.now().strftime("%Y-%m-%d %H:%M:%S"),6700.0)
+                                os.system('cls')
+                                input('Carrito confirmado')
+                            else:
+                                os.system('cls')
+                                input('No hay productos en el carrito')
                         if selectcarrito=='':
                             break
 
@@ -268,7 +255,7 @@ while True:
                 adminentrada=input(
                     '1. Productos\n'
                     '2. Categorias\n'
-                    'ENTER. Salir\n'
+                    'ENTER. Cerrar Sesion\n'
                 )
 
                 if adminentrada == '1':

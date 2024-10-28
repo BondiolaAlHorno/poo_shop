@@ -76,3 +76,27 @@ class Usuario(BaseModel):
             return True
         else:
             return False
+        
+    # inicia la sesion de un usuario
+    @staticmethod
+    def iniciarsesion(usuario,contrasenia):
+        import os
+        from Cliente import Cliente
+        from Administrador import Administrador
+        while True:
+            if usuario == '' and contrasenia == '':
+                    return None
+            if Usuario.verificar_usuario_contraseña(usuario,contrasenia):
+                user = Usuario.get(Usuario.usuario == usuario, Usuario.contrasenia == contrasenia)
+                if user.tipo == 'cliente':
+                    pers = Cliente.get(Cliente.usuario == user)
+                else:
+                    pers = Administrador.get(Administrador.usuario == user)
+                return pers
+            else:
+                os.system('cls')
+                print('Usuario o Contraseña incorretos')
+                usuario=input('Usuario:  ')
+                contrasenia=input('Contraseña:  ')
+                if usuario == '' and contrasenia == '':
+                    return None
