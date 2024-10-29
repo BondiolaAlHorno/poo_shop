@@ -184,7 +184,10 @@ while True:
                                         break
                                     else:
                                         cantidad=input('Seleccione la cantidad:\n')
-                                        pers.carrito.get().anadir_producto_al_carrito(productos[int(agregar)],int(cantidad))
+                                        if cantidad == '' and cantidad == '0':
+                                            pass
+                                        else:
+                                            pers.carrito.get().anadir_producto_al_carrito(productos[int(agregar)],int(cantidad))
 
                         elif inputproducto == '2':
                             os.system('cls')
@@ -203,7 +206,10 @@ while True:
                                         break
                                     else:
                                         cantidad=input('Seleccione la cantidad:\n')
-                                        pers.carrito.get().anadir_producto_al_carrito(productos[int(agregar)],int(cantidad))
+                                        if cantidad == '' and cantidad == '0':
+                                            pass
+                                        else:
+                                            pers.carrito.get().anadir_producto_al_carrito(productos[int(agregar)],int(cantidad))
 
                         elif inputproducto == '':
                             break
@@ -265,6 +271,7 @@ while True:
                             '1. Lista de Productos\n'
                             '2. Lista de Productos por Categoria\n'
                             '3. Lista de Productos por Criterio\n'
+                            '4. Añadir Producto\n'
                             'ENTER. Salir\n'
                         )
 
@@ -497,6 +504,28 @@ while True:
                                         
                                     else:
                                         break
+                        if adminentrada2 == '4':
+                            os.system('cls')
+                            pdescripcion=input('Ingrese la Descripcion\n')
+                            pprecio=(input('Ingrese el Precio\n'))
+                            if pprecio == '':
+                                pprecio=0
+                            else:
+                                pprecio=float(pprecio)
+                            pstock=(input('Ingrese el Stock\n'))
+                            if pstock == '':
+                                pstock=0
+                            else:
+                                pstock=int(pprecio)
+                            pmarca=input('Ingrese la Marca\n')
+                            pmodelo=input('Ingrese el Modelo\n')
+                            Producto.añadir_producto(
+                                pdescripcion,
+                                pprecio,
+                                pstock,
+                                pmarca,
+                                pmodelo
+                            )
                         if adminentrada2 == '':
                             break
 
