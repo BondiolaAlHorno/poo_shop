@@ -85,9 +85,6 @@ Cliente:
         mail:str
         )
 	Confirmar mail de verificación()
-	Ver Carrito(
-        self
-        )
 Categoría:
     Agregar categoría (
         nombre_categoria:str

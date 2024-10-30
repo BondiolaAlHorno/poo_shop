@@ -134,7 +134,7 @@ while True:
                         if selectcarrito=='1':
                             while True:
                                 os.system('cls')
-                                carritoitems = pers.vercarrito()
+                                carritoitems = [(item.producto.modelo, item.cantidad, format(float(item.producto.precio), '.2f')) for item in pers.carrito.get().mostrar_carrito()]
                                 for posicion,item in zip(range(len(carritoitems)),carritoitems):
                                     print(f'{posicion}  Modelo: {item[0]}  Cantidad: {item[1]}  Precio/u{item[2]}')
                                 elemento=input('Seleccione un elemento para modificar su cantidad\n')
@@ -184,7 +184,7 @@ while True:
                                         break
                                     else:
                                         cantidad=input('Seleccione la cantidad:\n')
-                                        if cantidad == '' and cantidad == '0':
+                                        if cantidad == '' or cantidad == '0':
                                             pass
                                         else:
                                             pers.carrito.get().anadir_producto_al_carrito(productos[int(agregar)],int(cantidad))
@@ -206,7 +206,7 @@ while True:
                                         break
                                     else:
                                         cantidad=input('Seleccione la cantidad:\n')
-                                        if cantidad == '' and cantidad == '0':
+                                        if cantidad == '' or cantidad == '0':
                                             pass
                                         else:
                                             pers.carrito.get().anadir_producto_al_carrito(productos[int(agregar)],int(cantidad))

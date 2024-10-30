@@ -124,7 +124,3 @@ class Cliente(Persona):
     #     except:
     #         server.quit()
     #         return False
-
-    # retorna una lista de tuplas del carrito donde cada una contiene un producto y su cantidad
-    def vercarrito(self):
-        return [(item.producto.modelo, item.cantidad, format(float(item.producto.precio), '.2f')) for item in self.carrito.get().mostrar_carrito()]
